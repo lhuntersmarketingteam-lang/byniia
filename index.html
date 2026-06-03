@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Базові meta / Open Graph. app.js перезаписує title та description з
+       content.js під час завантаження. Але соцмережні краулери (Instagram,
+       Facebook) JS не виконують — тому для коректного прев'ю при шерингу
+       значення нижче мають збігатися з content.js → meta. Це єдине місце
+       поза content.js, яке варто синхронізувати вручну при перешиванні. -->
+  <title>BY NIIA — Щоденник · Love · Care</title>
+  <meta name="description" content="Друкований щоденник на три місяці. Простір для тебе справжньої.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BY NIIA — Щоденник · Love · Care">
+  <meta property="og:description" content="Друкований щоденник на три місяці. Простір для тебе справжньої.">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Усі секції рендерить app.js із даних content.js.
+       Порядок секцій і вся розмітка живуть у app.js (render-функції). -->
+  <div id="theme-switch"></div>
+  <header id="site-header"></header>
+  <main id="app"></main>
+  <footer id="site-footer"></footer>
+
+  <!-- content.js має завантажитись ПЕРШИМ (визначає глобальну CONTENT),
+       app.js — другим (читає CONTENT і будує сторінку). -->
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
