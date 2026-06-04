@@ -523,13 +523,18 @@
     rails.forEach((rail) => {
       let paused = false;
       let resumeTimer = null;
-      const SPEED = 0.32; // px за кадр — повільний, рівний рух
+      let dir = 1;                 // напрям руху: 1 → вправо, -1 → вліво (ping-pong)
+      const SPEED = 0.7;           // px за кадр — помітний, але плавний рух
 
       function step() {
         if (!paused) {
           const max = rail.scrollWidth - rail.clientWidth;
           if (max > 2) {
-            rail.scrollLeft = (rail.scrollLeft >= max - 0.5) ? 0 : rail.scrollLeft + SPEED;
+            let next = rail.scrollLeft + dir * SPEED;
+            // дійшли до краю — плавно розвертаємось, без стрибка на початок
+            if (next >= max) { next = max; dir = -1; }
+            else if (next <= 0) { next = 0; dir = 1; }
+            rail.scrollLeft = next;
           }
         }
         requestAnimationFrame(step);

@@ -362,6 +362,8 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .month,.pg,.review{flex:0 0 82%}
   .facts{grid-template-columns:1fr 1fr}
   .blockrow{grid-template-columns:1fr}
+  /* «І в кожному дні» — текст по центру на мобільному */
+  .blk{text-align:center}
   .fit .cols{grid-template-columns:1fr;gap:14px}
   .price-split{grid-template-columns:1fr;gap:28px;text-align:center}
   .price-intro h2,.price-intro .desc{margin-left:auto;margin-right:auto}
