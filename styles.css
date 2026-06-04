@@ -71,7 +71,9 @@ header.scrolled .nav-cta{border-color:var(--gold);color:var(--ink);background:va
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px;position:relative}
 .eyebrow{font-family:var(--sans);font-size:var(--t-eyebrow);letter-spacing:.36em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:18px}
 .eyebrow.center{text-align:center}
-h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-height:1.18}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-height:1.18;text-wrap:balance}
+/* жодне слово не лишається саме на окремому рядку (де підтримується) */
+.hero .sub,.whatis .lead,.contents .head p,.month li,.blk span,.fitcol li,.review p,.q-q,.final p,.price .desc,.niia p{text-wrap:pretty}
 .btn{display:inline-block;font-family:var(--sans);font-size:12px;letter-spacing:.12em;padding:14px 38px;border-radius:40px;background:linear-gradient(135deg,var(--gold-bright),var(--gold));color:#fff;text-decoration:none;font-weight:600;cursor:pointer;border:none;box-shadow:0 10px 28px rgba(122,95,45,.22);transition:transform .35s,box-shadow .35s;text-transform:uppercase}
 .btn:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(122,95,45,.28)}
 .btn.lg{padding:16px 46px;font-size:12.5px}
@@ -123,6 +125,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .hero .priceline .old{font-family:var(--serif);font-size:18px;opacity:.5;text-decoration:line-through}
 .hero .priceline .new{font-family:var(--serif);font-size:36px}
 .hero .priceline .cur{font-family:var(--sans);font-size:12px;opacity:.82;font-weight:400;letter-spacing:.02em}
+/* один короткий рядок замість плиток зі специфікаціями */
+.hero-meta{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff;opacity:.82;font-weight:500;margin-bottom:22px}
 /* вхідна анімація героя */
 .hero .eyebrow,.hero h1,.hero .sub,.hero .buybox{animation:fadeUp .95s both}
 .hero .eyebrow{animation-delay:.1s}
@@ -141,6 +145,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .fact{padding:28px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(198,168,107,.10),rgba(198,168,107,.03));border:1px solid rgba(198,168,107,.22)}
 .fact .big{font-family:var(--serif);font-size:32px;color:var(--accent);line-height:1}
 .fact .cap{font-family:var(--sans);font-size:11px;color:var(--ink-soft);margin-top:10px;line-height:1.5;letter-spacing:.01em}
+/* одна фраза замість плиток із цифрами */
+.whatis .statement{font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.1vw,25px);color:var(--accent);max-width:24ch;margin:6px auto 0;line-height:1.4;text-wrap:balance}
 
 /* НІЯ */
 .niia{padding:80px 0}
@@ -150,6 +156,9 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .niia h2{font-size:var(--t-h2);color:var(--ink);margin-bottom:18px}
 .niia p{font-family:var(--sans);font-weight:300;font-size:var(--t-body);color:var(--ink-soft);margin-bottom:14px;max-width:54ch;line-height:1.78}
 .niia .pull{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.7vw,19px);color:var(--accent);border-left:2px solid var(--gold);padding-left:20px;margin-top:24px;line-height:1.4;max-width:34ch}
+/* плашки експертності */
+.niia .creds{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+.niia .cred{font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:rgba(198,168,107,.16);border:1px solid rgba(198,168,107,.4);border-radius:30px;padding:7px 15px}
 
 /* ===== ОПИТУВАЛЬНИК — у форматі щоденника ===== */
 .quizsection{padding:76px 0 88px}
@@ -221,7 +230,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .month .ph{font-family:var(--sans);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:12px}
 .month h3{font-family:var(--serif);font-size:var(--t-h3);color:var(--ink);margin-bottom:14px}
 .month ul{list-style:none}
-.month li{font-family:var(--sans);font-weight:300;font-size:13px;color:var(--ink-soft);padding:6px 0 6px 22px;position:relative;line-height:1.5}
+.month li{font-family:var(--sans);font-weight:400;font-size:13px;color:var(--ink);padding:6px 0 6px 22px;position:relative;line-height:1.5}
 .month li::before{content:"✦";position:absolute;left:0;color:var(--gold);font-size:9px;top:9px}
 .insideblocks{max-width:740px;margin:0 auto}
 .insideblocks h3{text-align:center;font-family:var(--serif);font-size:var(--t-h3);color:var(--ink);margin-bottom:26px}
@@ -232,6 +241,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 
 /* ===== ГАЛЕРЕЯ ===== */
 .gallery{padding:80px 0}
+/* темніший фон — щоб білий текст читався (особливо на мобільному) */
+.gallery.cloudbg::before{background:linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,.58))}
 .gallery .head{text-align:center;margin-bottom:46px}
 .gallery h2{color:#fff;font-size:var(--t-h2);margin-bottom:12px}
 .gallery .head p{color:#fff;opacity:.9;font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.35vw,16.5px)}
@@ -251,6 +262,10 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .review{position:relative;background:rgba(246,241,231,.74);backdrop-filter:blur(2px);border:1px solid rgba(198,168,107,.22);border-radius:16px;padding:28px 28px 30px}
 .review .mark{font-family:var(--serif);font-size:46px;color:var(--gold);opacity:.5;line-height:.6;display:block;margin-bottom:8px}
 .review p{font-family:var(--sans);font-weight:300;font-size:13.5px;color:var(--ink-soft);line-height:1.72;margin:0}
+/* підпис: ім'я + вік + проблематика — показує, що щоденник під різні запити й вік */
+.review .who{margin-top:18px;padding-top:14px;border-top:1px solid rgba(198,168,107,.28)}
+.review .who b{display:block;font-family:var(--serif);font-size:14px;color:var(--ink);font-weight:400;letter-spacing:.02em}
+.review .who span{display:block;font-family:var(--sans);font-size:11.5px;color:var(--accent);font-weight:500;margin-top:3px;line-height:1.4}
 
 /* ===== ПЕРЕВЕРТАННЯ (цитати чергуються) ===== */
 .reframe{padding:80px 0;text-align:center;min-height:34vh;display:flex;align-items:center}
@@ -296,6 +311,11 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .price-intro .desc{max-width:34ch;margin:0 0 22px}
 .price-intro .payhint{margin:18px 0 0}
 .price-split .pcard{margin:0 auto}
+/* коротка інфо про фонд просто в блоці ціни (крім великого блоку у фіналі) */
+.price-intro .charity-mini{font-family:var(--sans);font-weight:300;font-size:12.5px;color:#fff;opacity:.92;line-height:1.6;max-width:34ch;margin:20px 0 0;padding-left:16px;border-left:2px solid var(--gold)}
+
+/* ===== СМУГА З КНОПКОЮ (між блоками — щоб кнопок «Замовити» було достатньо) ===== */
+.ctaband{padding:46px 0 50px;text-align:center;background:transparent}
 
 /* ===== ФІНАЛ ===== */
 .final{padding:84px 0 70px;text-align:center}
@@ -329,7 +349,15 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
 
   .niia .inner{padding:30px 22px}
   .niia .grid{grid-template-columns:1fr;gap:26px}
-  .months,.pages,.review-grid{grid-template-columns:1fr}
+  /* горизонтальний скрол: картки частин, фото сторінок, відгуки */
+  .months,.pages,.review-grid{
+    display:flex;grid-template-columns:none;gap:14px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;
+    margin-left:-22px;margin-right:-22px;padding:4px 22px 14px;
+    scrollbar-width:none}
+  .months::-webkit-scrollbar,.pages::-webkit-scrollbar,.review-grid::-webkit-scrollbar{display:none}
+  .month,.pg,.review{flex:0 0 82%;scroll-snap-align:center}
   .facts{grid-template-columns:1fr 1fr}
   .blockrow{grid-template-columns:1fr}
   .fit .cols{grid-template-columns:1fr;gap:14px}

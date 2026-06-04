@@ -51,6 +51,13 @@
   /* --- невеликі хелпери розмітки --- */
   const li = (items) => items.map(i => `<li>${i}</li>`).join('');
 
+  // Кожне нове речення — з нового рядка (вставляємо <br> після . ! ? …,
+  // якщо далі пробіл і велика літера/лапки). Для коротких маркетингових текстів.
+  const lines = (t) => String(t).replace(/([.!?…])\s+(?=[«"“А-ЯЇІЄҐA-Z])/g, '$1<br>');
+
+  // Куди ведуть кнопки «Замовити набір»: сторінка оплати WayForPay (content.js).
+  const payHref = () => (C.paymentUrl && C.paymentUrl !== '#') ? C.paymentUrl : '#';
+
   /* --- 3. РЕНДЕР СЕКЦІЙ ----------------------------------------------------- */
 
   // Перемикач тем лишився в розмітці на майбутнє, але прихований (одна тема).
@@ -78,7 +85,6 @@
   function renderHero() {
     const h = C.hero;
     const poster = h.videoPoster ? ` poster="${h.videoPoster}"` : '';
-    const specs = h.specs.map(s => `<div><div class="n">${s.n}</div><div class="l">${s.l}</div></div>`).join('');
     return `
     <section class="hero" id="hero">
       <div class="hero-video">
@@ -92,15 +98,15 @@
         <div class="hero-content">
           <div class="eyebrow">${h.eyebrow}</div>
           <h1>${h.title}</h1>
-          <p class="sub">${h.sub}</p>
+          <p class="sub">${lines(h.sub)}</p>
           <div class="buybox">
-            <div class="specs">${specs}</div>
+            <div class="hero-meta">${h.metaLine}</div>
             <div class="priceline">
               <span class="old">${h.priceOld}</span>
               <span class="new">${h.priceNew}</span>
               <span class="cur">${h.priceUnit}</span>
             </div>
-            <a href="#price" class="btn lg">${h.cta}</a>
+            <a href="${payHref()}" target="_blank" rel="noopener" class="btn lg">${h.cta}</a>
           </div>
         </div>
       </div>
@@ -109,23 +115,21 @@
 
   function renderWhatis() {
     const w = C.whatis;
-    const facts = w.facts.map((f, i) =>
-      `<div class="fact reveal" style="--d:${i * 90}ms"><div class="big">${f.big}</div><div class="cap">${f.cap}</div></div>`
-    ).join('');
     return `
     <section class="whatis">
       <div class="wrap">
         <div class="eyebrow center reveal">${w.eyebrow}</div>
         <h2 class="reveal" style="--d:80ms">${w.title}</h2>
-        <p class="lead reveal" style="--d:160ms">${w.lead}</p>
-        <div class="facts">${facts}</div>
+        <p class="lead reveal" style="--d:160ms">${lines(w.lead)}</p>
+        <p class="statement reveal" style="--d:240ms">${w.statement}</p>
       </div>
     </section>`;
   }
 
   function renderNiia() {
     const n = C.niia;
-    const paras = n.paragraphs.map(p => `<p>${p}</p>`).join('');
+    const paras = n.paragraphs.map(p => `<p>${lines(p)}</p>`).join('');
+    const creds = (n.credentials || []).map(c => `<span class="cred">${c}</span>`).join('');
     return `
     <section class="niia cloudbg">
       <div class="wrap">
@@ -136,6 +140,7 @@
               <div class="eyebrow">${n.eyebrow}</div>
               <h2>${n.title}</h2>
               ${paras}
+              ${creds ? `<div class="creds">${creds}</div>` : ''}
               <p class="pull">${n.pull}</p>
             </div>
           </div>
@@ -191,7 +196,7 @@
         <div class="head reveal">
           <div class="eyebrow center">${c.eyebrow}</div>
           <h2>${c.title}</h2>
-          <p>${c.lead}</p>
+          <p>${lines(c.lead)}</p>
         </div>
         <div class="months">${months}</div>
         <div class="insideblocks reveal">
@@ -212,7 +217,7 @@
     return `
     <section class="gallery cloudbg">
       <div class="wrap">
-        <div class="head reveal"><h2>${g.title}</h2><p>${g.sub}</p></div>
+        <div class="head reveal"><h2>${g.title}</h2><p>${lines(g.sub)}</p></div>
         <div class="pages">${pages}</div>
       </div>
     </section>`;
@@ -221,10 +226,11 @@
   function renderReviews() {
     const r = C.reviews;
     // Лише тексти відгуків — без імен/міст/ролей.
-    const cards = r.items.map((text, i) => `
+    const cards = r.items.map((it, i) => `
       <div class="review reveal" style="--d:${(i % 3) * 110}ms">
         <span class="mark">&ldquo;</span>
-        <p>${text}</p>
+        <p>${it.text}</p>
+        <div class="who"><b>${it.name}, ${it.age}</b><span>${it.issue}</span></div>
       </div>`).join('');
     return `
     <section class="reviews" id="reviews">
@@ -273,7 +279,8 @@
           <div class="price-intro reveal">
             <div class="badge">${p.badge}</div>
             <h2>${p.title}</h2>
-            <p class="desc">${p.desc}</p>
+            <p class="desc">${lines(p.desc)}</p>
+            ${p.charityNote ? `<p class="charity-mini">${p.charityNote}</p>` : ''}
             <p class="payhint">${p.payHint}</p>
           </div>
           <div class="pcard reveal" style="--d:140ms">
@@ -282,7 +289,7 @@
             <div class="tag"><span class="old">${p.old}</span><span class="new">${p.new}</span><span class="cur">${p.cur}</span></div>
             <div class="save">${p.save}</div>
             <ul>${li(p.includes)}</ul>
-            <a href="${href}" class="btn lg" id="payBtn">${p.cta}</a>
+            <a href="${href}" target="_blank" rel="noopener" class="btn lg" id="payBtn">${p.cta}</a>
             <div class="left">${p.leftLabel}</div>
           </div>
         </div>
@@ -297,10 +304,19 @@
       <div class="wrap">
         <div class="medallion reveal">
           <h2>${f.title}</h2>
-          <p>${f.text}</p>
-          <a href="#price" class="btn">${f.cta}</a>
+          <p>${lines(f.text)}</p>
         </div>
         <p class="charity reveal">${f.charity}</p>
+      </div>
+    </section>`;
+  }
+
+  // Окрема смуга з кнопкою «Замовити набір» — щоб точок замовлення було більше.
+  function renderCtaBand() {
+    return `
+    <section class="ctaband">
+      <div class="wrap">
+        <a href="${payHref()}" target="_blank" rel="noopener" class="btn lg">${C.hero.cta}</a>
       </div>
     </section>`;
   }
@@ -506,15 +522,18 @@
     renderThemeSwitch();
     renderHeader();
 
+    // Порядок секцій: продукт — вгору, опитувальник — вище, історія Нії — нижче.
     document.getElementById('app').innerHTML = [
       renderHero(),
       renderWhatis(),
-      renderNiia(),
       renderQuiz(),
       renderContents(),
       renderGallery(),
-      renderReviews(),
+      renderCtaBand(),
       renderReframe(),
+      renderReviews(),
+      renderCtaBand(),
+      renderNiia(),
       renderFit(),
       renderPrice(),
       renderFinal(),
