@@ -512,7 +512,41 @@
     els.forEach(e => io.observe(e));
   }
 
-  /* --- 11. СКЛАДАННЯ СТОРІНКИ (порядок секцій тут) --- */
+  /* --- 11. М'ЯКИЙ АВТО-СКРОЛ ГОРИЗОНТАЛЬНИХ СТРІЧОК (тільки мобільний) ---
+     Стрічки повільно рухаються самі; коли людина тапає/тягне — рух
+     зупиняється й відновлюється через паузу. Без snap, щоб не «дьоргалося». */
+  function initHScroll() {
+    if (!window.matchMedia('(max-width:820px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const rails = document.querySelectorAll('.months, .pages, .review-grid');
+    rails.forEach((rail) => {
+      let paused = false;
+      let resumeTimer = null;
+      const SPEED = 0.32; // px за кадр — повільний, рівний рух
+
+      function step() {
+        if (!paused) {
+          const max = rail.scrollWidth - rail.clientWidth;
+          if (max > 2) {
+            rail.scrollLeft = (rail.scrollLeft >= max - 0.5) ? 0 : rail.scrollLeft + SPEED;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+      function pause() {
+        paused = true;
+        if (resumeTimer) clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => { paused = false; }, 2800);
+      }
+      ['pointerdown', 'touchstart', 'wheel'].forEach((ev) =>
+        rail.addEventListener(ev, pause, { passive: true })
+      );
+      requestAnimationFrame(step);
+    });
+  }
+
+  /* --- 12. СКЛАДАННЯ СТОРІНКИ (порядок секцій тут) --- */
   function build() {
     injectThemes();
     document.body.setAttribute('data-theme', C.defaultTheme);
@@ -522,19 +556,20 @@
     renderThemeSwitch();
     renderHeader();
 
-    // Порядок секцій: продукт — вгору, опитувальник — вище, історія Нії — нижче.
+    // Порядок секцій: хіро → що це → інтерактив → що всередині → подивись →
+    // це не для всіх → що кажуть дівчата → про Нію → замовити.
     document.getElementById('app').innerHTML = [
       renderHero(),
       renderWhatis(),
       renderQuiz(),
       renderContents(),
       renderGallery(),
-      renderCtaBand(),
       renderReframe(),
-      renderReviews(),
       renderCtaBand(),
-      renderNiia(),
       renderFit(),
+      renderReviews(),
+      renderNiia(),
+      renderCtaBand(),
       renderPrice(),
       renderFinal(),
     ].join('');
@@ -547,6 +582,7 @@
     initQuiz();
     initReframe();
     initReveal();
+    initHScroll();
   }
 
   build();
