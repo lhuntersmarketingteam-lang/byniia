@@ -115,8 +115,9 @@
 
   function renderWhatis() {
     const w = C.whatis;
+    // Закриті щоденники у 3D: показуємо праву (лицьову) частину розгортки.
     const covers = (w.covers || []).map((src, i) =>
-      `<img class="wc-cover wc-${i}" src="${src}" alt="Щоденник BY NIIA" loading="lazy">`
+      `<div class="wc-book wc-${i}" style="background-image:url('${src}')" role="img" aria-label="Щоденник BY NIIA"><span class="wc-pages"></span></div>`
     ).join('');
     return `
     <section class="whatis">
@@ -163,7 +164,6 @@
      щоб робити «перегортання аркуша» (клон сторінки → анімація leafTurn). */
   function renderQuiz() {
     const q = C.quiz;
-    const dots = q.questions.map(() => '<i></i>').join('');
     return `
     <section class="quizsection" id="quiz">
       <div class="wrap">
@@ -182,7 +182,6 @@
             <div class="diary-book" id="qBook">
               <div class="diary-page" id="qPage"></div>
             </div>
-            <div class="diary-prog" id="qProg">${dots}</div>
           </div>
         </div>
       </div>
@@ -238,8 +237,10 @@
     const r = C.reviews;
     // На десктопі спершу видно перші 3; решта (.extra) розкриваються кнопкою.
     // На мобільному всі відгуки доступні в горизонтальному скролі.
+    // м'які кольори щоденників, що чергуються по картках
+    const rc = ['#46686a', '#a36670', '#7b6e9c'];
     const cards = r.items.map((it, i) => `
-      <div class="review reveal${i >= 3 ? ' extra' : ''}" style="--d:${(i % 3) * 110}ms">
+      <div class="review reveal${i >= 3 ? ' extra' : ''}" style="--d:${(i % 3) * 110}ms;--rc:${rc[i % 3]}">
         <span class="mark">&ldquo;</span>
         <p>${it.text}</p>
         <div class="who"><b>${it.name}, ${it.age}</b><span>${it.issue}</span></div>
@@ -531,26 +532,26 @@
      Стрічки повільно рухаються самі; коли людина тапає/тягне — рух
      зупиняється й відновлюється через паузу. Без snap, щоб не «дьоргалося». */
   function initHScroll() {
-    if (!window.matchMedia('(max-width:820px)').matches) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const rails = document.querySelectorAll('.months, .pages, .review-grid');
     rails.forEach((rail) => {
       let paused = false;
       let resumeTimer = null;
       let dir = 1;                 // напрям руху: 1 → вправо, -1 → вліво (ping-pong)
-      const SPEED = 0.7;           // px за кадр — помітний, але плавний рух
+      const SPEED = 0.8;           // px за кадр — помітний, але плавний рух
+
+      // рухаємо лише коли стрічка реально горизонтальна (тобто на мобільному).
+      // Без прив'язки до брейкпойнта — самоадаптується при ресайзі/повороті.
+      const scrollable = () => (rail.scrollWidth - rail.clientWidth) > 4;
 
       function step() {
-        if (!paused) {
+        if (!paused && scrollable()) {
           const max = rail.scrollWidth - rail.clientWidth;
-          if (max > 2) {
-            let next = rail.scrollLeft + dir * SPEED;
-            // дійшли до краю — плавно розвертаємось, без стрибка на початок
-            if (next >= max) { next = max; dir = -1; }
-            else if (next <= 0) { next = 0; dir = 1; }
-            rail.scrollLeft = next;
-          }
+          let next = rail.scrollLeft + dir * SPEED;
+          if (next >= max) { next = max; dir = -1; } // плавний розворот на краях
+          else if (next <= 0) { next = 0; dir = 1; }
+          rail.scrollLeft = next;
         }
         requestAnimationFrame(step);
       }
@@ -600,7 +601,6 @@
       renderFit(),
       renderReviews(),
       renderNiia(),
-      renderCtaBand(),
       renderPrice(),
       renderFinal(),
     ].join('');
