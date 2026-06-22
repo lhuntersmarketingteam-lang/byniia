@@ -215,6 +215,7 @@
         <div class="months">${months}</div>
       </div>
       <img class="deco-leaf r" src="assets/pages/page-weekstart.jpg" alt="" aria-hidden="true" loading="lazy">
+      <img class="deco-leaf bl" src="assets/pages/page-checkup.jpg" alt="" aria-hidden="true" loading="lazy">
     </section>`;
   }
 
@@ -283,7 +284,6 @@
           <div class="fitcol no reveal" style="--d:120ms"><h3>${f.no.title}</h3><ul>${li(f.no.items)}</ul></div>
         </div>
       </div>
-      <img class="deco-leaf l" src="assets/pages/page-manifesto.jpg" alt="" aria-hidden="true" loading="lazy">
     </section>`;
   }
 
