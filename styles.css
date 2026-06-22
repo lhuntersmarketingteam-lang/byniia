@@ -85,7 +85,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .cloudbg::before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.18))}
 /* верх і низ розчиняються у фоновий папір — жодних різких меж */
 .cloudbg::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:linear-gradient(180deg,var(--paper) 0%,rgba(246,241,231,0) 34%,rgba(246,241,231,0) 66%,var(--paper) 100%)}
+  background:linear-gradient(180deg,var(--paper) 0%,rgba(246,241,231,0) 40%,rgba(246,241,231,0) 60%,var(--paper) 100%)}
 .cloudbg>*{position:relative;z-index:1}
 
 /* --- АНІМАЦІЇ проявлення --- */
@@ -144,26 +144,26 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .whatis-text{text-align:left}
 .whatis h2{font-size:var(--t-h2);color:var(--ink);margin-bottom:20px}
 .whatis .lead{font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.35vw,16.5px);color:var(--ink-soft);max-width:48ch;margin:0 0 26px;line-height:1.75}
-/* закриті щоденники у вигляді реалістичних 3D-книжок (віялом) */
-.whatis-visual{position:relative;min-height:400px;display:flex;align-items:center;justify-content:center;perspective:1700px}
-.wc-book{position:absolute;width:52%;aspect-ratio:.72;border-radius:3px 8px 8px 3px;
-  /* показуємо лицьову (праву) частину розгортки — це закрита обкладинка */
-  background-size:cover;background-position:90% center;background-repeat:no-repeat;
+/* закриті щоденники як реалістичні 3D-книжки: одна спереду, дві віялом позаду */
+.whatis-visual{position:relative;min-height:440px;display:flex;align-items:center;justify-content:center;perspective:1800px}
+.wc-book{position:absolute;width:52%;aspect-ratio:.8;border-radius:3px 9px 9px 3px;
+  /* показуємо лицьову панель розгортки з відцентрованою рамкою BY NIIA та полями */
+  background-size:176% 100%;background-position:94% center;background-repeat:no-repeat;
   transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.6,.2,1);
-  box-shadow:-10px 26px 44px rgba(0,0,0,.30),-3px 8px 14px rgba(0,0,0,.20)}
+  box-shadow:-12px 30px 52px rgba(0,0,0,.32),-4px 10px 18px rgba(0,0,0,.22)}
 /* корінець (товщина книжки) ліворуч */
-.wc-book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:11px;border-radius:3px 0 0 3px;
-  background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(255,255,255,.16) 55%,rgba(0,0,0,.22));z-index:2}
-/* зріз сторінок праворуч */
-.wc-book .wc-pages{position:absolute;right:-6px;top:3%;bottom:3%;width:7px;border-radius:0 3px 3px 0;
+.wc-book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:13px;border-radius:3px 0 0 3px;
+  background:linear-gradient(90deg,rgba(0,0,0,.44),rgba(255,255,255,.18) 52%,rgba(0,0,0,.24));z-index:2}
+/* зріз сторінок праворуч (товщина блоку) */
+.wc-book .wc-pages{position:absolute;right:-7px;top:2.5%;bottom:2.5%;width:8px;border-radius:0 3px 3px 0;
   background:repeating-linear-gradient(90deg,#f3ecdd 0,#f3ecdd 1px,#dccfb4 1px,#dccfb4 2px);
-  box-shadow:2px 0 6px rgba(0,0,0,.16)}
-.wc-book.wc-0{transform:translateX(-62%) rotateY(26deg) scale(.9);z-index:1}
-.wc-book.wc-1{transform:translateY(-14px) rotateY(-6deg);z-index:3}
-.wc-book.wc-2{transform:translateX(62%) rotateY(-26deg) scale(.9);z-index:2}
-.whatis-visual:hover .wc-0{transform:translateX(-72%) rotateY(30deg) scale(.9)}
-.whatis-visual:hover .wc-1{transform:translateY(-22px) rotateY(-6deg)}
-.whatis-visual:hover .wc-2{transform:translateX(72%) rotateY(-30deg) scale(.9)}
+  box-shadow:3px 0 7px rgba(0,0,0,.18)}
+.wc-book.wc-0{transform:translateX(-10%) rotateY(7deg);z-index:3}
+.wc-book.wc-1{transform:translate(34%,-9%) rotateY(-13deg) scale(.82);z-index:2}
+.wc-book.wc-2{transform:translate(58%,-15%) rotateY(-19deg) scale(.7);z-index:1}
+.whatis-visual:hover .wc-0{transform:translateX(-13%) rotateY(7deg)}
+.whatis-visual:hover .wc-1{transform:translate(40%,-11%) rotateY(-13deg) scale(.82)}
+.whatis-visual:hover .wc-2{transform:translate(66%,-17%) rotateY(-19deg) scale(.7)}
 .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:860px;margin:0 auto}
 .fact{padding:28px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(198,168,107,.10),rgba(198,168,107,.03));border:1px solid rgba(198,168,107,.22)}
 .fact .big{font-family:var(--serif);font-size:32px;color:var(--accent);line-height:1}
@@ -187,7 +187,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 /* інтерактив — на окремому, спокійному фоні (як хіро, але м'якше), з розчиненими краями */
 .quizsection{padding:90px 0 96px;position:relative;background:linear-gradient(180deg,#889b9f,#728990)}
 .quizsection::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:linear-gradient(180deg,var(--paper) 0%,rgba(246,241,231,0) 30%,rgba(246,241,231,0) 70%,var(--paper) 100%)}
+  background:linear-gradient(180deg,var(--paper) 0%,rgba(246,241,231,0) 38%,rgba(246,241,231,0) 62%,var(--paper) 100%)}
 .quizsection>*{position:relative;z-index:1}
 .quizbook{max-width:600px;margin:0 auto;perspective:2400px}
 
@@ -322,6 +322,16 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .fitcol.yes li::before{content:"✦";position:absolute;left:0;color:var(--gold);font-size:10px;top:11px}
 .fitcol.no li::before{content:"—";position:absolute;left:0;color:#b3a99e;top:8px}
 
+/* ===== ДЕКОР: аркуші, що ніби залітають з-за краю екрана (заповнюють пустоту) ===== */
+.contents,.fit{position:relative;overflow:hidden}
+.contents .wrap,.fit .wrap{z-index:1}
+.deco-leaf{position:absolute;z-index:0;width:clamp(180px,27vw,320px);border-radius:9px;
+  box-shadow:0 34px 64px rgba(0,0,0,.16);opacity:.5;pointer-events:none;filter:saturate(.92)}
+.deco-leaf.r{right:-64px;top:5%;animation:driftR 11s ease-in-out infinite}
+.deco-leaf.l{left:-64px;bottom:5%;animation:driftL 12s ease-in-out infinite}
+@keyframes driftR{0%,100%{transform:rotate(7deg) translateY(0)}50%{transform:rotate(7deg) translateY(-18px)}}
+@keyframes driftL{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(-8deg) translateY(16px)}}
+
 /* ===== ЦІНА ===== */
 .price{padding:80px 0;text-align:center}
 .price .badge{display:inline-block;font-family:var(--sans);font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink);background:var(--gold-bright);padding:8px 20px;border-radius:30px;font-weight:600;margin-bottom:24px}
@@ -412,11 +422,14 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .whatis-text{text-align:center}
   .whatis .lead{margin-left:auto;margin-right:auto}
   .whatis .statement{margin-left:auto;margin-right:auto}
-  /* 3D-книжки трохи компактніші, щоб не вилазили за екран */
-  .whatis-visual{min-height:300px;order:-1}
-  .wc-book{width:46%}
-  .wc-book.wc-0{transform:translateX(-54%) rotateY(24deg) scale(.9)}
-  .wc-book.wc-2{transform:translateX(54%) rotateY(-24deg) scale(.9)}
+  /* 3D-книжки: одна спереду, дві позаду — компактніше під екран */
+  .whatis-visual{min-height:360px;order:-1}
+  .wc-book{width:58%}
+  .wc-book.wc-0{transform:translateX(-8%) rotateY(7deg)}
+  .wc-book.wc-1{transform:translate(30%,-8%) rotateY(-12deg) scale(.8)}
+  .wc-book.wc-2{transform:translate(52%,-13%) rotateY(-18deg) scale(.68)}
+  /* декоративні аркуші на мобільному ховаємо (немає пустоти для заповнення) */
+  .deco-leaf{display:none}
   .fit .cols{grid-template-columns:1fr;gap:14px}
   .price-split{grid-template-columns:1fr;gap:28px;text-align:center}
   .price-intro h2,.price-intro .desc{margin-left:auto;margin-right:auto}
@@ -437,7 +450,7 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .dc-card{min-height:250px;padding:34px 24px}
   .diary-page,.diary-leaf{padding:26px 20px 26px 40px}
   .month,.pg,.review{flex:0 0 86%}
-  .wc-book{width:50%}
+  .wc-book{width:64%}
   .review{padding:24px 22px 26px}
 }
 

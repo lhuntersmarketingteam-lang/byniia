@@ -214,6 +214,7 @@
         </div>
         <div class="months">${months}</div>
       </div>
+      <img class="deco-leaf r" src="assets/pages/page-weekstart.jpg" alt="" aria-hidden="true" loading="lazy">
     </section>`;
   }
 
@@ -282,6 +283,7 @@
           <div class="fitcol no reveal" style="--d:120ms"><h3>${f.no.title}</h3><ul>${li(f.no.items)}</ul></div>
         </div>
       </div>
+      <img class="deco-leaf l" src="assets/pages/page-manifesto.jpg" alt="" aria-hidden="true" loading="lazy">
     </section>`;
   }
 
@@ -538,8 +540,7 @@
     rails.forEach((rail) => {
       let paused = false;
       let resumeTimer = null;
-      let dir = 1;                 // напрям руху: 1 → вправо, -1 → вліво (ping-pong)
-      const SPEED = 0.8;           // px за кадр — помітний, але плавний рух
+      const SPEED = 0.45;          // px за кадр — повільний, спокійний рух в один бік
 
       // рухаємо лише коли стрічка реально горизонтальна (тобто на мобільному).
       // Без прив'язки до брейкпойнта — самоадаптується при ресайзі/повороті.
@@ -548,17 +549,18 @@
       function step() {
         if (!paused && scrollable()) {
           const max = rail.scrollWidth - rail.clientWidth;
-          let next = rail.scrollLeft + dir * SPEED;
-          if (next >= max) { next = max; dir = -1; } // плавний розворот на краях
-          else if (next <= 0) { next = 0; dir = 1; }
-          rail.scrollLeft = next;
+          // повзе вправо й зупиняється на останній картці (без відкату назад)
+          if (rail.scrollLeft < max - 0.5) {
+            rail.scrollLeft = Math.min(rail.scrollLeft + SPEED, max);
+          }
         }
         requestAnimationFrame(step);
       }
+      // призупиняємо, коли людина торкається картки (читає), і відновлюємо згодом
       function pause() {
         paused = true;
         if (resumeTimer) clearTimeout(resumeTimer);
-        resumeTimer = setTimeout(() => { paused = false; }, 2800);
+        resumeTimer = setTimeout(() => { paused = false; }, 3200);
       }
       ['pointerdown', 'touchstart', 'wheel'].forEach((ev) =>
         rail.addEventListener(ev, pause, { passive: true })
@@ -596,8 +598,8 @@
       renderQuiz(),
       renderContents(),
       renderGallery(),
-      renderReframe(),
       renderCtaBand(),
+      renderReframe(),
       renderFit(),
       renderReviews(),
       renderNiia(),
