@@ -115,13 +115,21 @@
 
   function renderWhatis() {
     const w = C.whatis;
+    const covers = (w.covers || []).map((src, i) =>
+      `<img class="wc-cover wc-${i}" src="${src}" alt="Щоденник BY NIIA" loading="lazy">`
+    ).join('');
     return `
     <section class="whatis">
       <div class="wrap">
-        <div class="eyebrow center reveal">${w.eyebrow}</div>
-        <h2 class="reveal" style="--d:80ms">${w.title}</h2>
-        <p class="lead reveal" style="--d:160ms">${lines(w.lead)}</p>
-        <p class="statement reveal" style="--d:240ms">${w.statement}</p>
+        <div class="whatis-split">
+          <div class="whatis-text">
+            <div class="eyebrow reveal">${w.eyebrow}</div>
+            <h2 class="reveal" style="--d:80ms">${w.title}</h2>
+            <p class="lead reveal" style="--d:160ms">${lines(w.lead)}</p>
+            <p class="statement reveal" style="--d:240ms">${w.statement}</p>
+          </div>
+          ${covers ? `<div class="whatis-visual reveal" style="--d:200ms">${covers}</div>` : ''}
+        </div>
       </div>
     </section>`;
   }
@@ -183,13 +191,20 @@
 
   function renderContents() {
     const c = C.contents;
-    const months = c.parts.map((p, i) => `
-      <div class="month reveal" style="--d:${i * 110}ms">
+    // кожна частина — у своєму кольорі (кольори щоденників): --part / --part-bg
+    const months = c.parts.map((p, i) => {
+      const vars = [
+        p.color ? `--part:${p.color}` : '',
+        p.tint ? `--part-bg:${p.tint}` : '',
+        `--d:${i * 110}ms`,
+      ].filter(Boolean).join(';');
+      return `
+      <div class="month reveal" style="${vars}">
         <div class="num">${p.num}</div><div class="ph">${p.ph}</div>
         <h3>${p.title}</h3>
         <ul>${li(p.items)}</ul>
-      </div>`).join('');
-    const blocks = c.daily.blocks.map(b => `<div class="blk"><b>${b.b}</b><span>${b.t}</span></div>`).join('');
+      </div>`;
+    }).join('');
     return `
     <section class="contents">
       <div class="wrap">
@@ -199,10 +214,6 @@
           <p>${lines(c.lead)}</p>
         </div>
         <div class="months">${months}</div>
-        <div class="insideblocks reveal">
-          <h3>${c.daily.title}</h3>
-          <div class="blockrow">${blocks}</div>
-        </div>
       </div>
     </section>`;
   }
@@ -225,13 +236,18 @@
 
   function renderReviews() {
     const r = C.reviews;
-    // Лише тексти відгуків — без імен/міст/ролей.
+    // На десктопі спершу видно перші 3; решта (.extra) розкриваються кнопкою.
+    // На мобільному всі відгуки доступні в горизонтальному скролі.
     const cards = r.items.map((it, i) => `
-      <div class="review reveal" style="--d:${(i % 3) * 110}ms">
+      <div class="review reveal${i >= 3 ? ' extra' : ''}" style="--d:${(i % 3) * 110}ms">
         <span class="mark">&ldquo;</span>
         <p>${it.text}</p>
         <div class="who"><b>${it.name}, ${it.age}</b><span>${it.issue}</span></div>
       </div>`).join('');
+    const hasMore = r.items.length > 3;
+    const moreBtn = hasMore
+      ? `<button type="button" class="reviews-more btn ghost" id="reviewsMore">${r.moreBtn || 'Показати ще'}</button>`
+      : '';
     return `
     <section class="reviews" id="reviews">
       <div class="wrap">
@@ -241,6 +257,7 @@
           <p>${r.sub}</p>
         </div>
         <div class="review-grid">${cards}</div>
+        ${moreBtn}
       </div>
     </section>`;
   }
@@ -297,15 +314,13 @@
     </section>`;
   }
 
+  // Фінал: лише коротка нота про підтримку жінок (медальйон прибрано).
   function renderFinal() {
     const f = C.final;
+    if (!f || !f.charity) return '';
     return `
     <section class="final">
       <div class="wrap">
-        <div class="medallion reveal">
-          <h2>${f.title}</h2>
-          <p>${lines(f.text)}</p>
-        </div>
         <p class="charity reveal">${f.charity}</p>
       </div>
     </section>`;
@@ -551,7 +566,18 @@
     });
   }
 
-  /* --- 12. СКЛАДАННЯ СТОРІНКИ (порядок секцій тут) --- */
+  /* --- 12. ВІДГУКИ: «показати ще» (десктоп) — розкриває решту карток --- */
+  function initReviewsMore() {
+    const btn = document.getElementById('reviewsMore');
+    const grid = document.querySelector('.review-grid');
+    if (!btn || !grid) return;
+    btn.addEventListener('click', () => {
+      grid.classList.add('show-all');
+      btn.classList.add('hidden');
+    });
+  }
+
+  /* --- 13. СКЛАДАННЯ СТОРІНКИ (порядок секцій тут) --- */
   function build() {
     injectThemes();
     document.body.setAttribute('data-theme', C.defaultTheme);
@@ -588,6 +614,7 @@
     initReframe();
     initReveal();
     initHScroll();
+    initReviewsMore();
   }
 
   build();
