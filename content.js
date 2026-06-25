@@ -80,9 +80,9 @@ const CONTENT = {
     statement: '3 частини = 3 місяці глибинної роботи з собою',
     // Фото щоденника у трьох кольорах (праворуч від тексту).
     covers: [
-      'assets/covers/cover-green.jpg',
-      'assets/covers/cover-pink.jpg',
-      'assets/covers/cover-lavender.jpg',
+      'assets/covers/cover-green-front.jpg',
+      'assets/covers/cover-pink-front.jpg',
+      'assets/covers/cover-lavender-front.jpg',
     ],
   },
 
