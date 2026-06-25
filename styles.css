@@ -427,9 +427,11 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .months,.pages,.review-grid,.fit .cols{
     display:flex;grid-template-columns:none;gap:14px;
     overflow-x:auto;scroll-behavior:auto;
-    /* touch-action:pan-x → вертикальний жест проходить крізь стрічку до сторінки;
-       overscroll-behavior-x:contain → горизонтальний край не «чіпляє» скрол сторінки */
-    touch-action:pan-x;overscroll-behavior-x:contain;
+    /* БЕЗ touch-action:pan-x! Вона блокувала вертикальний скрол, що починається
+       на картці. Дефолтна поведінка сама розрулює: горизонтальний свайп гортає
+       стрічку, вертикальний — скролить сторінку. overscroll-behavior-x:contain —
+       щоб горизонтальний край не тригерив навігацію/скрол сторінки. */
+    overscroll-behavior-x:contain;
     margin-left:-22px;margin-right:-22px;padding:4px 22px 14px;
     scrollbar-width:none}
   .months::-webkit-scrollbar,.pages::-webkit-scrollbar,.review-grid::-webkit-scrollbar,.fit .cols::-webkit-scrollbar{display:none}
@@ -473,7 +475,8 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .pcard .whatsub{margin-bottom:16px}
   /* «Я НІЯ»: фото + текст в один екран */
   .niia{padding-top:40px;padding-bottom:40px}
-  .niia .portrait{aspect-ratio:auto;height:180px}
+  /* обличчя Нії у верхній частині фото → кадруємо від верху, трохи вище фото */
+  .niia .portrait{aspect-ratio:auto;height:230px;background-position:center top}
   .niia h2{margin-bottom:10px}
   .niia p{font-size:13px;line-height:1.55;margin-bottom:9px}
   .niia .creds{gap:6px;margin-top:14px}
