@@ -385,6 +385,18 @@
     const tryPlay = () => { const p = vid.play(); if (p) p.catch(() => {}); };
     vid.addEventListener('loadeddata', tryPlay);
     setTimeout(tryPlay, 500); // нудж для iOS Safari
+
+    // ПРОДУКТИВНІСТЬ: відео декодується навіть коли його не видно — це головна
+    // причина лагів при скролі на мобільному. Паузимо, щойно герой іде з екрана.
+    const hero = document.getElementById('hero');
+    if (hero && 'IntersectionObserver' in window) {
+      new IntersectionObserver((ents) => {
+        if (ents[0].isIntersecting) tryPlay(); else vid.pause();
+      }, { threshold: 0.01 }).observe(hero);
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) vid.pause(); else tryPlay();
+    });
   }
 
   /* --- 7. ШАПКА на скролі --- */
@@ -536,7 +548,7 @@
   function initHScroll() {
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const rails = document.querySelectorAll('.months, .pages, .review-grid');
+    const rails = document.querySelectorAll('.months, .pages, .review-grid, .fit .cols');
     rails.forEach((rail) => {
       let paused = false;
       let visible = true;          // стрічка у вʼюпорті?

@@ -412,39 +412,70 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .review{background:color-mix(in srgb,var(--rc) 8%,#f1ead9)}
   .niia .inner{background:#f4eee2}
   header.scrolled{background:rgba(246,241,231,.97)}
+  /* великі м'які тіні дорого перемальовуються під час скролу — полегшуємо радіус */
+  .wc-book{box-shadow:-6px 12px 22px rgba(0,0,0,.28)}
+  .pg{box-shadow:0 8px 18px rgba(0,0,0,.22)}
+  .pcard{box-shadow:0 12px 26px rgba(0,0,0,.22)}
+  .niia .inner{box-shadow:0 12px 28px rgba(0,0,0,.12)}
+  .month{box-shadow:0 6px 16px rgba(0,0,0,.05)}
+  .dc-card{box-shadow:0 14px 30px rgba(0,0,0,.28),0 0 0 1px rgba(255,255,255,.1)}
+  .diary-book{box-shadow:0 14px 30px rgba(0,0,0,.16)}
+  /* повноекранне накладання (mix-blend-mode) дуже дороге при скролі — і його майже не видно */
+  .bg-mist::after{display:none}
   /* горизонтальний скрол: картки частин, фото сторінок, відгуки.
      scroll-behavior:auto — щоб авто-скрол (app.js) не конфліктував зі smooth. */
-  .months,.pages,.review-grid{
+  .months,.pages,.review-grid,.fit .cols{
     display:flex;grid-template-columns:none;gap:14px;
     overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;
     touch-action:pan-x;overscroll-behavior-x:contain;
     margin-left:-22px;margin-right:-22px;padding:4px 22px 14px;
     scrollbar-width:none}
-  .months::-webkit-scrollbar,.pages::-webkit-scrollbar,.review-grid::-webkit-scrollbar{display:none}
+  .months::-webkit-scrollbar,.pages::-webkit-scrollbar,.review-grid::-webkit-scrollbar,.fit .cols::-webkit-scrollbar{display:none}
   /* 80% + видно краєчок наступної картки — підказка, що можна гортати */
-  .month,.pg,.review{flex:0 0 80%}
+  .month,.pg,.review,.fitcol{flex:0 0 80%}
   /* на мобільному всі відгуки доступні в скролі — кнопку «показати ще» ховаємо */
   .review.extra{display:block}
   .reviews-more{display:none}
   .facts{grid-template-columns:1fr 1fr}
-  /* блок 2: текст і фото щоденника одне під одним */
-  .whatis{text-align:center}
-  .whatis-split{grid-template-columns:1fr;gap:24px}
+  /* «ЩО ЦЕ»: книжки + текст разом в один екран — компактно, без зайвих відступів */
+  .whatis{text-align:center;padding-top:38px;padding-bottom:38px}
+  .whatis-split{grid-template-columns:1fr;gap:10px}
   .whatis-text{text-align:center}
-  .whatis .lead{margin-left:auto;margin-right:auto}
-  .whatis .statement{margin-left:auto;margin-right:auto}
-  /* 3D-книжки: одна спереду, дві позаду — компактніше під екран */
-  .whatis-visual{min-height:360px;order:-1}
-  .wc-book{width:58%}
-  .wc-book.wc-0{transform:translateX(-20%) rotateY(7deg)}
-  .wc-book.wc-1{transform:translate(18%,-8%) rotateY(-12deg) scale(.8)}
-  .wc-book.wc-2{transform:translate(40%,-13%) rotateY(-18deg) scale(.68)}
+  .whatis h2{margin-bottom:10px}
+  .whatis .lead{margin:0 auto 12px;font-size:13px;line-height:1.55}
+  .whatis .statement{margin-left:auto;margin-right:auto;font-size:17px}
+  /* 3D-книжки компактніше — щоб блок влазив у висоту екрана */
+  .whatis-visual{min-height:228px;order:-1}
+  .wc-book{width:50%}
+  .wc-book.wc-0{transform:translateX(-18%) rotateY(7deg)}
+  .wc-book.wc-1{transform:translate(16%,-7%) rotateY(-12deg) scale(.8)}
+  .wc-book.wc-2{transform:translate(36%,-12%) rotateY(-18deg) scale(.68)}
   /* декоративні аркуші на мобільному ховаємо (немає пустоти для заповнення) */
   .deco-leaf{display:none}
-  .fit .cols{grid-template-columns:1fr;gap:14px}
-  .price-split{grid-template-columns:1fr;gap:28px;text-align:center}
+  /* «ЦЕ НЕ ДЛЯ ВСІХ»: дві колонки тепер горизонтальним скролом */
+  .fit{padding-top:42px;padding-bottom:42px}
+  .fit h2{margin-bottom:22px}
+  .fitcol{padding:26px 24px}
+  /* «ДРУКУ БІЛЬШЕ НЕ БУДЕ» (ціна): в один екран */
+  .price{padding-top:40px;padding-bottom:40px}
+  .price-split{grid-template-columns:1fr;gap:18px;text-align:center}
   .price-intro h2,.price-intro .desc{margin-left:auto;margin-right:auto}
+  .price-intro .desc{margin-bottom:0}
   .price-intro .charity-mini,.price-intro .payhint{margin-left:auto;margin-right:auto}
+  .price-intro .charity-mini{margin-top:14px}
+  .pcard{padding:26px 22px}
+  .pcard .new{font-size:42px}
+  .pcard ul{margin-bottom:18px}
+  .pcard li{padding:4px 0 4px 22px}
+  .pcard .whatsub{margin-bottom:16px}
+  /* «Я НІЯ»: фото + текст в один екран */
+  .niia{padding-top:40px;padding-bottom:40px}
+  .niia .portrait{aspect-ratio:auto;height:180px}
+  .niia h2{margin-bottom:10px}
+  .niia p{font-size:13px;line-height:1.55;margin-bottom:9px}
+  .niia .creds{gap:6px;margin-top:14px}
+  .niia .cred{font-size:9.5px;padding:5px 11px}
+  .niia .pull{font-size:15px;margin-top:14px;padding-left:14px}
   .diary-page,.diary-leaf{padding:30px 26px 30px 48px}
   .diary-book::before{left:30px}
   header{padding:14px 20px}
