@@ -146,7 +146,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .whatis .lead{font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.35vw,16.5px);color:var(--ink-soft);max-width:48ch;margin:0 0 26px;line-height:1.75}
 /* закриті щоденники як реалістичні 3D-книжки: одна спереду, дві віялом позаду */
 .whatis-visual{position:relative;min-height:440px;display:flex;align-items:center;justify-content:center;perspective:1800px}
-.wc-book{position:absolute;width:50%;aspect-ratio:.77;border-radius:3px 9px 9px 3px;
+.wc-book{position:absolute;width:46%;aspect-ratio:.64;border-radius:3px 9px 9px 3px;
   /* лицьова обкладинка вже обрізана у файлі (cover-*-front.jpg) під 0.77 —
      рівно як контейнер. cover/center заповнює без спотворень і відсоткових зсувів. */
   background-size:cover;background-position:center;background-repeat:no-repeat;
