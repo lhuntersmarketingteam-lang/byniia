@@ -539,33 +539,52 @@
     const rails = document.querySelectorAll('.months, .pages, .review-grid');
     rails.forEach((rail) => {
       let paused = false;
+      let visible = true;          // стрічка у вʼюпорті?
       let resumeTimer = null;
+      let rafId = null;
       const SPEED = 0.45;          // px за кадр — повільний, спокійний рух в один бік
 
       // рухаємо лише коли стрічка реально горизонтальна (тобто на мобільному).
       // Без прив'язки до брейкпойнта — самоадаптується при ресайзі/повороті.
       const scrollable = () => (rail.scrollWidth - rail.clientWidth) > 4;
+      // активний рух лише коли видно, не на паузі, вкладка активна й є куди їхати
+      const active = () => visible && !paused && !document.hidden && scrollable();
 
       function step() {
-        if (!paused && scrollable()) {
+        rafId = null;
+        if (active()) {
           const max = rail.scrollWidth - rail.clientWidth;
           // повзе вправо й зупиняється на останній картці (без відкату назад)
           if (rail.scrollLeft < max - 0.5) {
             rail.scrollLeft = Math.min(rail.scrollLeft + SPEED, max);
+            schedule();          // продовжуємо лише поки реально рухаємось
+            return;
           }
         }
-        requestAnimationFrame(step);
+        // інакше цикл засинає; прокинеться через kick() (скрол у вʼюпорт/повернення вкладки)
       }
+      // запускаємо кадр лише якщо ще не запланований — без дубльованих циклів
+      function schedule() { if (rafId == null) rafId = requestAnimationFrame(step); }
+      const kick = () => { if (active()) schedule(); };
+
       // призупиняємо, коли людина торкається картки (читає), і відновлюємо згодом
       function pause() {
         paused = true;
         if (resumeTimer) clearTimeout(resumeTimer);
-        resumeTimer = setTimeout(() => { paused = false; }, 3200);
+        resumeTimer = setTimeout(() => { paused = false; kick(); }, 3200);
       }
       ['pointerdown', 'touchstart', 'wheel'].forEach((ev) =>
         rail.addEventListener(ev, pause, { passive: true })
       );
-      requestAnimationFrame(step);
+      // рухаємо тільки те, що на екрані — поза екраном цикл повністю спить
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((ents) => {
+          visible = ents[0].isIntersecting;
+          kick();
+        }, { threshold: 0 }).observe(rail);
+      }
+      document.addEventListener('visibilitychange', kick);
+      kick();
     });
   }
 

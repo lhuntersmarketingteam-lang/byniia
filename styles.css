@@ -405,6 +405,13 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
 
   .niia .inner{padding:30px 22px}
   .niia .grid{grid-template-columns:1fr;gap:26px}
+  /* ПРОДУКТИВНІСТЬ: розмиття (backdrop-filter) під час скролу на мобільному
+     дає сильні лаги. Прибираємо його, замінюючи на щільніший непрозорий фон —
+     візуально майже те саме, але рендериться миттєво. */
+  .review,.niia .inner,header.scrolled{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .review{background:color-mix(in srgb,var(--rc) 8%,#f1ead9)}
+  .niia .inner{background:#f4eee2}
+  header.scrolled{background:rgba(246,241,231,.97)}
   /* горизонтальний скрол: картки частин, фото сторінок, відгуки.
      scroll-behavior:auto — щоб авто-скрол (app.js) не конфліктував зі smooth. */
   .months,.pages,.review-grid{
