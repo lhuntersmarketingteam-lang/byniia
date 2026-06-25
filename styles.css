@@ -271,15 +271,17 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 
 /* ===== ГАЛЕРЕЯ ===== */
 .gallery{padding:80px 0}
-/* темніший фон — щоб білий текст читався (особливо на мобільному) */
-.gallery.cloudbg::before{background:linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,.58))}
+/* темніший фон — щоб білий текст читався (особливо на мобільному).
+   Вгорі секції фон перетікає у світлий папір і «з'їдає» білий заголовок —
+   тому затемнюємо сильніше саме зверху. */
+.gallery.cloudbg::before{background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.48) 38%,rgba(0,0,0,.58))}
 .gallery .head{text-align:center;margin-bottom:46px}
-.gallery h2{color:#fff;font-size:var(--t-h2);margin-bottom:12px}
-.gallery .head p{color:#fff;opacity:.9;font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.35vw,16.5px)}
+.gallery h2{color:#fff;font-size:var(--t-h2);margin-bottom:12px;text-shadow:0 2px 20px rgba(0,0,0,.7),0 1px 4px rgba(0,0,0,.55)}
+.gallery .head p{color:#fff;opacity:.92;font-family:var(--sans);font-weight:300;font-size:clamp(14px,1.35vw,16.5px);text-shadow:0 1px 12px rgba(0,0,0,.6)}
 .pages{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:940px;margin:0 auto}
 .pg{background:var(--paper);border-radius:10px;overflow:hidden;box-shadow:0 18px 42px rgba(0,0,0,.28);transition:transform .4s}
 .pg:hover{transform:translateY(-6px)}
-.pg img{width:100%;display:block;aspect-ratio:620/886;object-fit:cover}
+.pg img{width:100%;height:auto;display:block}
 .pg .cap{padding:14px 18px;font-family:var(--sans);font-size:12px;color:var(--ink-soft);text-align:center;font-weight:300}
 .pg .cap b{display:block;font-family:var(--serif);color:var(--ink);font-size:14px;margin-bottom:3px;font-weight:400}
 
