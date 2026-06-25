@@ -53,7 +53,9 @@ body{
 .bg-mist{position:fixed;inset:0;z-index:-2;
   background:linear-gradient(180deg,#f6f1e7 0%,#f3ecdd 50%,#f6f1e7 100%);}
 .bg-mist::after{content:"";position:absolute;inset:0;
-  background-size:cover;background-position:center;opacity:.05;mix-blend-mode:multiply;
+  background-size:cover;background-position:center;opacity:.05;
+  /* mix-blend-mode прибрано: на фіксованому повноекранному шарі він змушував браузер
+     перемальовувати весь екран щокадру при скролі (помітні лаги на десктопі). */
   /* background-image (хмара) проставляє app.js */ }
 
 /* приховуємо порожні монтувальні вузли, якщо вони не використані */

@@ -402,9 +402,16 @@
   /* --- 7. ШАПКА на скролі --- */
   function initHeaderScroll() {
     const header = document.getElementById('site-header');
+    let ticking = false;
+    // passive + rAF-throttle: обробляємо скрол раз на кадр і не блокуємо прокрутку
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 60);
-    });
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        header.classList.toggle('scrolled', window.scrollY > 60);
+        ticking = false;
+      });
+    }, { passive: true });
   }
 
   /* --- 8. ОПИТУВАЛЬНИК-ЩОДЕННИК -------------------------------------------
