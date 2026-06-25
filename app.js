@@ -223,7 +223,7 @@
     const g = C.gallery;
     const pages = g.pages.map((p, i) => `
       <div class="pg reveal" style="--d:${i * 110}ms">
-        <img src="${p.src}" alt="${p.b}" loading="lazy">
+        <img src="${p.src}" alt="${p.b}" width="620" height="886" decoding="async" fetchpriority="high">
         <div class="cap"><b>${p.b}</b>${p.c}</div>
       </div>`).join('');
     return `
@@ -307,7 +307,7 @@
             <div class="what">${p.productName}</div>
             <div class="whatsub">${p.productSub}</div>
             <div class="tag"><span class="old">${p.old}</span><span class="new">${p.new}</span><span class="cur">${p.cur}</span></div>
-            <div class="save">${p.save}</div>
+            ${p.save ? `<div class="save">${p.save}</div>` : ''}
             <ul>${li(p.includes)}</ul>
             <a href="${href}" target="_blank" rel="noopener" class="btn lg" id="payBtn">${p.cta}</a>
             <div class="left">${p.leftLabel}</div>

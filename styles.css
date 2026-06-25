@@ -279,7 +279,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:.01em;line-heig
 .pages{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:940px;margin:0 auto}
 .pg{background:var(--paper);border-radius:10px;overflow:hidden;box-shadow:0 18px 42px rgba(0,0,0,.28);transition:transform .4s}
 .pg:hover{transform:translateY(-6px)}
-.pg img{width:100%;display:block}
+.pg img{width:100%;display:block;aspect-ratio:620/886;object-fit:cover}
 .pg .cap{padding:14px 18px;font-family:var(--sans);font-size:12px;color:var(--ink-soft);text-align:center;font-weight:300}
 .pg .cap b{display:block;font-family:var(--serif);color:var(--ink);font-size:14px;margin-bottom:3px;font-weight:400}
 
@@ -429,17 +429,20 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
      scroll-behavior:auto — щоб авто-скрол (app.js) не конфліктував зі smooth. */
   .months,.pages,.review-grid,.fit .cols{
     display:flex;grid-template-columns:none;gap:14px;
-    overflow-x:auto;scroll-behavior:auto;
-    /* БЕЗ touch-action:pan-x! Вона блокувала вертикальний скрол, що починається
-       на картці. Дефолтна поведінка сама розрулює: горизонтальний свайп гортає
-       стрічку, вертикальний — скролить сторінку. overscroll-behavior-x:contain —
-       щоб горизонтальний край не тригерив навігацію/скрол сторінки. */
+    /* ЗАМОРОЖУЄМО ВЕРТИКАЛЬНУ ВІСЬ: overflow-y:hidden прибирає вертикальний «люфт»
+       (стрічка з overflow-x:auto інакше стає й вертикально-прокручуваною й картки
+       бобають). Лишається лише горизонтальний скрол. Без touch-action — вертикальний
+       жест автоматично йде на скрол сторінки (стрічка по Y не прокручується). */
+    overflow-x:auto;overflow-y:hidden;scroll-behavior:auto;
     overscroll-behavior-x:contain;
-    margin-left:-22px;margin-right:-22px;padding:4px 22px 14px;
+    margin-left:-22px;margin-right:-22px;padding:12px 22px 16px;
     scrollbar-width:none}
   .months::-webkit-scrollbar,.pages::-webkit-scrollbar,.review-grid::-webkit-scrollbar,.fit .cols::-webkit-scrollbar{display:none}
   /* 80% + видно краєчок наступної картки — підказка, що можна гортати */
   .month,.pg,.review,.fitcol{flex:0 0 80%}
+  /* у горизонтальних стрічках прибираємо вертикальний зсув анімації появи —
+     щоб картки не рухались по вертикалі (лише плавне проявлення прозорістю) */
+  .months .reveal,.pages .reveal,.review-grid .reveal,.fit .cols .reveal{transform:none}
   /* на мобільному всі відгуки доступні в скролі — кнопку «показати ще» ховаємо */
   .review.extra{display:block}
   .reviews-more{display:none}
