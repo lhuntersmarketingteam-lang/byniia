@@ -547,6 +547,11 @@
      зупиняється й відновлюється через паузу. Без snap, щоб не «дьоргалося». */
   function initHScroll() {
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // На сенсорних екранах JS-автоскрол конфліктує з пальцем: під час інерційного
+    // вертикального скролу він відновлюється й перехоплює жест → сторінка «застигає»,
+    // картки смикаються. Тому на тач-пристроях НЕ рухаємо програмно — лишаємо
+    // плавний нативний свайп. Автоскрол-демо лишається лише для миші (десктоп).
+    if (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) return;
 
     const rails = document.querySelectorAll('.months, .pages, .review-grid, .fit .cols');
     rails.forEach((rail) => {

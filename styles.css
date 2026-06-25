@@ -426,7 +426,9 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
      scroll-behavior:auto — щоб авто-скрол (app.js) не конфліктував зі smooth. */
   .months,.pages,.review-grid,.fit .cols{
     display:flex;grid-template-columns:none;gap:14px;
-    overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;
+    overflow-x:auto;scroll-behavior:auto;
+    /* touch-action:pan-x → вертикальний жест проходить крізь стрічку до сторінки;
+       overscroll-behavior-x:contain → горизонтальний край не «чіпляє» скрол сторінки */
     touch-action:pan-x;overscroll-behavior-x:contain;
     margin-left:-22px;margin-right:-22px;padding:4px 22px 14px;
     scrollbar-width:none}
@@ -439,14 +441,15 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .facts{grid-template-columns:1fr 1fr}
   /* «ЩО ЦЕ»: книжки + текст разом в один екран — компактно, без зайвих відступів */
   .whatis{text-align:center;padding-top:38px;padding-bottom:38px}
-  .whatis-split{grid-template-columns:1fr;gap:10px}
+  .whatis-split{grid-template-columns:1fr;gap:18px}
   .whatis-text{text-align:center}
   .whatis h2{margin-bottom:10px}
   .whatis .lead{margin:0 auto 12px;font-size:13px;line-height:1.55}
   .whatis .statement{margin-left:auto;margin-right:auto;font-size:17px}
-  /* 3D-книжки компактніше — щоб блок влазив у висоту екрана */
-  .whatis-visual{min-height:228px;order:-1}
-  .wc-book{width:50%}
+  /* 3D-книжки компактніше — менші й з max-width, щоб НЕ налазили на заголовок
+     і гарантовано вміщались у свій бокс на будь-якому екрані телефона */
+  .whatis-visual{min-height:226px;order:-1}
+  .wc-book{width:48%;max-width:158px}
   .wc-book.wc-0{transform:translateX(-18%) rotateY(7deg)}
   .wc-book.wc-1{transform:translate(16%,-7%) rotateY(-12deg) scale(.8)}
   .wc-book.wc-2{transform:translate(36%,-12%) rotateY(-18deg) scale(.68)}
@@ -491,8 +494,8 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .niia .inner{padding:24px 18px}
   .dc-card{min-height:250px;padding:34px 24px}
   .diary-page,.diary-leaf{padding:26px 20px 26px 40px}
-  .month,.pg,.review{flex:0 0 86%}
-  .wc-book{width:64%}
+  .month,.pg,.review,.fitcol{flex:0 0 86%}
+  /* книжки не збільшуємо — max-width із правила вище тримає їх компактними */
   .review{padding:24px 22px 26px}
 }
 
