@@ -397,6 +397,9 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
     var(--bg-deep));}
   .hero-content{max-width:none}
   .hero .specs,.hero .priceline{justify-content:flex-start}
+  /* стабільна висота героя: 100svh не реагує на появу/зникнення адресного рядка,
+     тож сторінка не «смикається» при скролі (на відміну від 100vh) */
+  .hero{min-height:100svh}
 
   /* комфортніші відступи секцій на мобільному */
   .whatis,.contents,.gallery,.reviews,.fit,.price,.niia,.reframe{padding-top:58px;padding-bottom:58px}
@@ -500,6 +503,21 @@ footer .f-ig:hover{border-color:var(--gold-bright)}
   .month,.pg,.review,.fitcol{flex:0 0 86%}
   /* книжки не збільшуємо — max-width із правила вище тримає їх компактними */
   .review{padding:24px 22px 26px}
+}
+
+/* ===== СТАБІЛІЗАЦІЯ НА СЕНСОРНИХ ЕКРАНАХ =====
+   На телефоні немає наведення, але браузер вмикає :hover на дотик — і картки/кнопки
+   «підстрибують» (transform) при торканні, особливо під час скролу. Вимикаємо весь
+   рух по hover саме там, де нема справжнього наведення. */
+@media(hover:none){
+  .btn:hover,.pg:hover,.diary-cover:hover,.q-opt:hover{transform:none}
+  .whatis-visual:hover .wc-0{transform:translateX(-18%) rotateY(7deg)}
+  .whatis-visual:hover .wc-1{transform:translate(16%,-7%) rotateY(-12deg) scale(.8)}
+  .whatis-visual:hover .wc-2{transform:translate(36%,-12%) rotateY(-18deg) scale(.68)}
+  /* книжки декоративні — хай дотик проходить крізь них до скролу сторінки */
+  .whatis-visual{pointer-events:none}
+  /* без сірого спалаху при тапі */
+  *{-webkit-tap-highlight-color:transparent}
 }
 
 /* шануємо вимкнені анімації */
