@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дякуємо за замовлення — BY NIIA</title>
+  <meta name="robots" content="noindex"><!-- сторінка-конверсія, не для індексації -->
+
+  <!-- ============================================================
+       ВІДСТЕЖЕННЯ ПОКУПКИ ДЛЯ ТАРГЕТОЛОГА
+       Сюди вставляється піксель. Нижче — каркас Meta Pixel (Facebook/Instagram).
+       Заміни YOUR_PIXEL_ID на реальний ID із Meta Events Manager.
+       Подія Purchase спрацьовує при завантаженні цієї сторінки (після оплати).
+       value/currency — фіксована ціна набору (онови, якщо ціна зміниться).
+       Для Google Ads / TikTok додай їхні теги поряд так само.
+       ============================================================ -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');                      /* ← ВСТАВ PIXEL ID */
+    fbq('track', 'PageView');
+    fbq('track', 'Purchase', {value: 1990.00, currency: 'UAH'});
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=Purchase&noscript=1"/></noscript>
+  <!-- /Meta Pixel -->
+
+  <style>
+    @font-face{font-family:'Lovelace';src:url('fonts/Lovelace-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+    @font-face{font-family:'Raleway';src:url('fonts/Raleway-VariableFont_wght.ttf') format('truetype');font-weight:100 900;font-display:swap}
+    :root{--paper:#f6f1e7;--ink:#2b3d40;--ink-soft:#56686b;--gold:#c6a86b;--gold-bright:#d8bd84;--accent:#3a5052;--bg-deep:#6b8186}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Raleway',Arial,sans-serif;background:var(--paper);color:var(--ink);
+      min-height:100svh;display:flex;align-items:center;justify-content:center;
+      padding:32px;font-weight:300;line-height:1.7;text-align:center}
+    .card{max-width:520px}
+    .mark{width:78px;height:78px;border-radius:50%;margin:0 auto 28px;
+      background:linear-gradient(135deg,var(--gold-bright),var(--gold));
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 16px 38px rgba(122,95,45,.28)}
+    .mark svg{width:38px;height:38px;stroke:#fff;stroke-width:3;fill:none;
+      stroke-linecap:round;stroke-linejoin:round}
+    .eyebrow{font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+      font-weight:600;color:var(--gold);margin-bottom:16px}
+    h1{font-family:'Lovelace',Georgia,serif;font-weight:400;font-size:clamp(28px,5vw,42px);
+      line-height:1.2;color:var(--ink);margin-bottom:18px}
+    p{font-size:15px;color:var(--ink-soft);max-width:42ch;margin:0 auto 14px}
+    .home{display:inline-block;margin-top:26px;font-size:12px;letter-spacing:.12em;
+      text-transform:uppercase;font-weight:600;text-decoration:none;color:var(--accent);
+      border:1px solid var(--gold);border-radius:40px;padding:13px 34px;transition:background .3s}
+    .home:hover{background:rgba(198,168,107,.12)}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="eyebrow">BY NIIA · Love · Care</div>
+    <h1>Дякуємо за замовлення</h1>
+    <p>Твій набір уже чекає на тебе. Найближчим часом ми зв'яжемося, щоб підтвердити деталі та доставку Новою поштою.</p>
+    <p>Бажаємо тобі м'якого повернення до себе. 🤍</p>
+    <a class="home" href="/">На головну</a>
+  </div>
+</body>
+</html>
