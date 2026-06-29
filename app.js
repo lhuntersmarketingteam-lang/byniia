@@ -58,6 +58,17 @@
   // Куди ведуть кнопки «Замовити набір»: сторінка оплати WayForPay (content.js).
   const payHref = () => (C.paymentUrl && C.paymentUrl !== '#') ? C.paymentUrl : '#';
 
+  // Відкриває віджет оплати WayForPay модальним вікном (нова сесія на кожен клік).
+  // Якщо скрипт віджета не завантажився (адблок/мережа) — фолбек: відкриваємо лінк.
+  function openPay() {
+    const url = payHref();
+    if (url === '#') return;
+    if (typeof Wayforpay !== 'undefined') {
+      try { new Wayforpay().invoice(url); return; } catch (e) { /* фолбек нижче */ }
+    }
+    window.open(url, '_blank', 'noopener');
+  }
+
   /* --- 3. РЕНДЕР СЕКЦІЙ ----------------------------------------------------- */
 
   // Перемикач тем лишився в розмітці на майбутнє, але прихований (одна тема).
@@ -106,7 +117,7 @@
               <span class="new">${h.priceNew}</span>
               <span class="cur">${h.priceUnit}</span>
             </div>
-            <a href="${payHref()}" target="_blank" rel="noopener" class="btn lg">${h.cta}</a>
+            <button type="button" class="btn lg" data-pay>${h.cta}</button>
           </div>
         </div>
       </div>
@@ -289,9 +300,7 @@
 
   function renderPrice() {
     const p = C.price;
-    // Кнопка оплати веде на WayForPay (content.js → paymentUrl).
-    // Поки там заглушка '#' — кнопка нікуди не веде; підстав реальний URL у content.js.
-    const href = (C.paymentUrl && C.paymentUrl !== '#') ? C.paymentUrl : '#';
+    // Кнопка оплати відкриває віджет WayForPay (openPay) — обробник на [data-pay].
     return `
     <section class="price cloudbg" id="price">
       <div class="wrap">
@@ -309,7 +318,7 @@
             <div class="tag"><span class="old">${p.old}</span><span class="new">${p.new}</span><span class="cur">${p.cur}</span></div>
             ${p.save ? `<div class="save">${p.save}</div>` : ''}
             <ul>${li(p.includes)}</ul>
-            <a href="${href}" target="_blank" rel="noopener" class="btn lg" id="payBtn">${p.cta}</a>
+            <button type="button" class="btn lg" id="payBtn" data-pay>${p.cta}</button>
             <div class="left">${p.leftLabel}</div>
           </div>
         </div>
@@ -334,7 +343,7 @@
     return `
     <section class="ctaband">
       <div class="wrap">
-        <a href="${payHref()}" target="_blank" rel="noopener" class="btn lg">${C.hero.cta}</a>
+        <button type="button" class="btn lg" data-pay>${C.hero.cta}</button>
       </div>
     </section>`;
   }
@@ -612,6 +621,13 @@
     });
   }
 
+  /* --- ОПЛАТА: будь-яка кнопка [data-pay] відкриває віджет WayForPay --- */
+  function initPay() {
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-pay]')) { e.preventDefault(); openPay(); }
+    });
+  }
+
   /* --- 12. ВІДГУКИ: «показати ще» (десктоп) — розкриває решту карток --- */
   function initReviewsMore() {
     const btn = document.getElementById('reviewsMore');
@@ -660,6 +676,7 @@
     initReveal();
     initHScroll();
     initReviewsMore();
+    initPay();
   }
 
   build();

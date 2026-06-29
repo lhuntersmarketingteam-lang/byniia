@@ -25,6 +25,12 @@
   <main id="app"></main>
   <footer id="site-footer"></footer>
 
+  <!-- Віджет оплати WayForPay: відкриває оплату модальним вікном на сторінці
+       й створює нову сесію на кожен клік (на відміну від статичного інвойс-лінка,
+       що протерміновувався). Кнопка налаштована в кабінеті WayForPay; тут лише
+       публічне посилання на неї — секретного ключа немає. -->
+  <script src="https://secure.wayforpay.com/server/pay-widget.js?ref=button"></script>
+
   <!-- content.js має завантажитись ПЕРШИМ (визначає глобальну CONTENT),
        app.js — другим (читає CONTENT і будує сторінку). -->
   <script src="content.js"></script>
