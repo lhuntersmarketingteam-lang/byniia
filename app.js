@@ -626,6 +626,18 @@
     document.addEventListener('click', (e) => {
       if (e.target.closest('[data-pay]')) { e.preventDefault(); openPay(); }
     });
+
+    // На ДЕСКТОПІ віджет — це модальне вікно: після оплати він показує свою
+    // сторінку успіху ВСЕРЕДИНІ модалки й НЕ редіректить основну сторінку
+    // (на мобільному редірект на return URL відбувається сам). Тому ловимо
+    // подію віджета про успішну оплату й самі ведемо на /thank-you, щоб
+    // піксель Purchase спрацював і на компʼютері.
+    window.addEventListener('message', (e) => {
+      const d = e && e.data;
+      const approved = d === 'WfpWidgetEventApproved' ||
+        (d && typeof d === 'object' && d.transactionStatus === 'Approved');
+      if (approved) window.location.href = '/thank-you';
+    });
   }
 
   /* --- 12. ВІДГУКИ: «показати ще» (десктоп) — розкриває решту карток --- */
