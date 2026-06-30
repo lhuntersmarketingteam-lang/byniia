@@ -16,6 +16,25 @@
   <meta property="og:description" content="Друкований щоденник на три місяці. Простір для тебе справжньої.">
 
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Meta Pixel (відстеження для таргетингу). Базовий піксель + PageView на всіх
+       сторінках. Подію AddToCart шле app.js при кліку «Замовити». Подію Purchase —
+       сторінка подяки (thank-you.html) після оплати. -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1305185071367821');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1305185071367821&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel -->
 </head>
 <body>
   <!-- Усі секції рендерить app.js із даних content.js.

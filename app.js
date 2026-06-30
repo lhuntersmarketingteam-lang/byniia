@@ -624,7 +624,12 @@
   /* --- ОПЛАТА: будь-яка кнопка [data-pay] відкриває віджет WayForPay --- */
   function initPay() {
     document.addEventListener('click', (e) => {
-      if (e.target.closest('[data-pay]')) { e.preventDefault(); openPay(); }
+      if (e.target.closest('[data-pay]')) {
+        e.preventDefault();
+        // Meta Pixel: клік «Замовити» = намір купити
+        if (typeof fbq !== 'undefined') fbq('track', 'AddToCart');
+        openPay();
+      }
     });
 
     // На ДЕСКТОПІ віджет — це модальне вікно: після оплати він показує свою
