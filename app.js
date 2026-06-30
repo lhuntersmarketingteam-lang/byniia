@@ -634,7 +634,14 @@
     // піксель Purchase спрацював і на компʼютері.
     window.addEventListener('message', (e) => {
       const d = e && e.data;
-      const approved = d === 'WfpWidgetEventApproved' ||
+      let s = '';
+      try { s = (typeof d === 'string') ? d : JSON.stringify(d); } catch (_) { s = String(d); }
+      // діагностика: видно в консолі браузера, який саме меседж шле віджет
+      if (s && /wfp|wayforpay|transactionStatus|approved/i.test(s)) {
+        console.log('[WFP message]', s);
+      }
+      // успішна оплата у будь-якому форматі → ведемо на сторінку подяки (піксель)
+      const approved = /approved/i.test(s) ||
         (d && typeof d === 'object' && d.transactionStatus === 'Approved');
       if (approved) window.location.href = '/thank-you';
     });
